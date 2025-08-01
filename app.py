@@ -22,16 +22,17 @@ def update_status(new_state):
         "updated_at": datetime.utcnow().isoformat()
     }).eq("id", 1).execute()
 
+# 🟢 Handle button clicks first
+if st.button("Set to Free ✅"):
+    update_status("Free")
+    st.success("Status updated to Free!")
+
+if st.button("Set to Occupied 🚫"):
+    update_status("Occupied")
+    st.warning("Status updated to Occupied!")
+
+# 🔄 Then fetch and display the latest status
 state, updated = get_status()
 st.markdown(f"### 🚽 Toilet is: `{state}`")
 st.markdown(f"_Last updated: {updated}_")
 
-col1, col2 = st.columns(2)
-with col1:
-    if st.button("Set to Free ✅"):
-        update_status("Free")
-        st.success("Status updated to Free!")
-with col2:
-    if st.button("Set to Occupied 🚫"):
-        update_status("Occupied")
-        st.warning("Status updated to Occupied!")
