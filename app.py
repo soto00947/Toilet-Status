@@ -38,7 +38,7 @@ state, updated = get_status()
 if state == "Besetzt":
     st.markdown(f"""
         <div style="background-color:#d00000;padding:1rem;border-radius:0.5rem;text-align:center;">
-            <h2 style="color:white;">🚫 BESCHÄFTIGT</h2>
+            <h2 style="color:white;">🚫 BESETZT</h2>
         </div>
     """, unsafe_allow_html=True)
 elif state == "Frei":
