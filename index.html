@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Toilet Booking Status</title>
+</head>
+<body>
+  <h1 id="status">Toilet is Available 🚽</h1>
+  <button onclick="bookToilet()">Book Toilet</button>
+  <button onclick="releaseToilet()">Release Toilet</button>
+
+  <script>
+    let isBooked = false;
+
+    function updateStatus() {
+      document.getElementById("status").textContent = isBooked
+        ? "Toilet is Booked ❌"
+        : "Toilet is Available 🚽";
+    }
+
+    function bookToilet() {
+      isBooked = true;
+      updateStatus();
+    }
+
+    function releaseToilet() {
+      isBooked = false;
+      updateStatus();
+    }
+  </script>
+</body>
+</html>
