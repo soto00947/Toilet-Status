@@ -4,28 +4,56 @@
   <title>Toilet Booking Status</title>
 </head>
 <body>
-  <h1 id="status">Toilet is Available 🚽</h1>
+  <h1 id="status">Loading toilet status...</h1>
   <button onclick="bookToilet()">Book Toilet</button>
   <button onclick="releaseToilet()">Release Toilet</button>
 
-  <script>
-    let isBooked = false;
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-database.js"></script>
 
-    function updateStatus() {
+  <script>
+ const firebaseConfig = {
+
+  apiKey: "AIzaSyB5vBMNWz1ax7yiK2JArd9yM8fYEbOwyXE",
+
+  authDomain: "toilet-status-dbe21.firebaseapp.com",
+
+  projectId: "toilet-status-dbe21",
+
+  storageBucket: "toilet-status-dbe21.firebasestorage.app",
+
+  messagingSenderId: "455102413333",
+
+  appId: "1:455102413333:web:41f37f56f8a0590573ac1c",
+
+  measurementId: "G-2H8DFTX3XJ"
+
+};
+
+
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    const statusRef = db.ref("toiletStatus");
+
+    // Listen for changes
+    statusRef.on("value", (snapshot) => {
+      const isBooked = snapshot.val();
       document.getElementById("status").textContent = isBooked
         ? "Toilet is Booked ❌"
         : "Toilet is Available 🚽";
-    }
+    });
 
     function bookToilet() {
-      isBooked = true;
-      updateStatus();
+      statusRef.set(true);
     }
 
     function releaseToilet() {
-      isBooked = false;
-      updateStatus();
+      statusRef.set(false);
     }
   </script>
 </body>
 </html>
+
