@@ -1,6 +1,7 @@
 import streamlit as st
 from supabase import create_client
 from datetime import datetime
+import pytz
 
 # Supabase credentials
 url = "https://wpitatsigfjhcaqwkqvo.supabase.co"
@@ -23,31 +24,45 @@ def update_status(new_state):
     }).eq("id", 1).execute()
 
 # 🟢 Handle button clicks first
-if st.button("Setze auf Frei ✅"):
-    update_status("Frei")
-    st.success("Status wurde auf Frei gesetzt!")
-
-if st.button("Setze auf Besetzt 🚫"):
-    update_status("Besetzt")
-    st.warning("Status wurde auf Besetzt gesetzt!")
+col1, col2 = st.columns(2)
+with col1:
+    if st.button("Setze auf Frei ✅"):
+        update_status("Frei")
+        st.success("Status wurde auf Frei gesetzt!")
+with col2:
+    if st.button("Setze auf Besetzt 🚫"):
+        update_status("Besetzt")
+        st.warning("Status wurde auf Besetzt gesetzt!")
 
 # 🔄 Fetch and display latest status
 state, updated = get_status()
 
+# 🕒 Convert UTC to German local time (CET/CEST)
+def format_german_time(utc_string):
+    if not utc_string:
+        return "Unbekannt"
+    utc_dt = datetime.fromisoformat(utc_string.replace("Z", "+00:00"))
+    german_tz = pytz.timezone("Europe/Berlin")
+    local_dt = utc_dt.astimezone(german_tz)
+    return local_dt.strftime("%H:%M:%S")
+
+formatted_time = format_german_time(updated)
+
 # 🎨 Styled status box
 if state == "Besetzt":
     st.markdown(f"""
-        <div style="background-color:#d00000;padding:1rem;border-radius:0.5rem;text-align:center;">
-            <h2 style="color:white;">🚫 BESETZT</h2>
+        <div style="background-color:#d00000;padding:1.5rem;border-radius:0.5rem;text-align:center;">
+            <h2 style="color:white;font-size:2rem;">🚫 BESETZT</h2>
         </div>
     """, unsafe_allow_html=True)
 elif state == "Frei":
     st.markdown(f"""
-        <div style="background-color:#00b300;padding:1rem;border-radius:0.5rem;text-align:center;">
-            <h2 style="color:white;">✅ FREI</h2>
+        <div style="background-color:#00b300;padding:1.5rem;border-radius:0.5rem;text-align:center;">
+            <h2 style="color:white;font-size:2rem;">✅ FREI</h2>
         </div>
     """, unsafe_allow_html=True)
 else:
     st.markdown(f"### 🚽 Toilettenstatus: `{state}`")
 
-st.markdown(f"_Zuletzt aktualisiert: {updated}_")
+# 🕒 Show only time in German format
+st.markdown(f"<p style='text-align:center;'>🕒 Zuletzt aktualisiert um <b>{formatted_time}</b></p>", unsafe_allow_html=True)
