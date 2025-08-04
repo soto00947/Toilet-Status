@@ -1,9 +1,10 @@
 import streamlit as st
 from supabase import create_client
-from datetime import datetime
+from datetime import datetime, timedelta
 import pytz
 import os
 from dotenv import load_dotenv
+import time
 
 # 🔐 Load environment variables
 load_dotenv()
@@ -65,10 +66,12 @@ with col1:
     if st.button("Setze auf Frei ✅"):
         update_status("Frei")
         st.success("Status wurde auf Frei gesetzt!")
+        st.experimental_rerun()
 with col2:
     if st.button("Setze auf Besetzt 🚫"):
         update_status("Besetzt")
         st.warning("Status wurde auf Besetzt gesetzt!")
+        st.experimental_rerun()
 
 # 🔄 Fetch and process status
 state, updated = get_status()
@@ -83,10 +86,16 @@ if state == "Besetzt":
             <h2 style="color:white;font-size:2rem;">🚫 BESETZT</h2>
         </div>
     """, unsafe_allow_html=True)
+
     if remaining_seconds is not None:
         minutes = remaining_seconds // 60
         seconds = remaining_seconds % 60
         st.markdown(f"<p style='text-align:center;'>⏳ Automatische Freigabe in <b>{minutes:02d}:{seconds:02d}</b> Minuten</p>", unsafe_allow_html=True)
+
+        # 🔁 Refresh every second for live countdown
+        time.sleep(1)
+        st.experimental_rerun()
+
 elif state == "Frei":
     st.markdown(f"""
         <div style="background-color:#00b300;padding:1.5rem;border-radius:0.5rem;text-align:center;">
