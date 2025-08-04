@@ -64,7 +64,7 @@ if state == "Besetzt" and updated:
     else:
         minutes = int(remaining // 60)
         seconds = int(remaining % 60)
-        st.info(f"⏳ Automatisch frei in: **{minutes:02d}:{seconds:02d} Minuten**")
+        st.info(f"⏳ Wird frei in: **{minutes:02d}:{seconds:02d} Minuten**")
 
 # 🎨 Styled status box
 if state == "Besetzt":
