@@ -1,17 +1,18 @@
 import streamlit as st
+from streamlit_autorefresh import st_autorefresh
 from supabase import create_client
 from datetime import datetime
 import pytz
 
+# 🔁 Auto-refresh every 5 seconds
+st_autorefresh(interval=5000, limit=100, key="auto-refresh")
 
 # ✅ Load credentials from secrets
 url = st.secrets["SUPABASE_URL"]
 key = st.secrets["SUPABASE_KEY"]
-
 supabase = create_client(url, key)
 
-supabase = create_client(url, key)
-
+# 🖼️ Page setup
 st.set_page_config(page_title="Toilettenstatus", page_icon="🚽")
 st.title("🚽 Toilettenstatus Monitor")
 
