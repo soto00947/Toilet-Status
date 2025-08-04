@@ -4,8 +4,8 @@ from datetime import datetime
 import pytz
 
 # Supabase credentials
-url = "https://wpitatsigfjhcaqwkqvo.supabase.co"
-key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndwaXRhdHNpZ2ZqaGNhcXdrcXZvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQwNDYzNjEsImV4cCI6MjA2OTYyMjM2MX0.8vg70wT9HhXa3XlBMnc68Jii8-qUYrz7q8khmUxlsKo"
+#url = "https://wpitatsigfjhcaqwkqvo.supabase.co"
+#key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndwaXRhdHNpZ2ZqaGNhcXdrcXZvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQwNDYzNjEsImV4cCI6MjA2OTYyMjM2MX0.8vg70wT9HhXa3XlBMnc68Jii8-qUYrz7q8khmUxlsKo"
 supabase = create_client(url, key)
 
 st.set_page_config(page_title="Toilettenstatus", page_icon="🚽")
